@@ -1,0 +1,19 @@
+class Solution(object):
+    def networkDelayTime(self, times, N, K):
+        """
+        :type times: List[List[int]]
+        :type N: int
+        :type K: int
+        :rtype: int
+        """
+        dis = [[float("inf")] * (N + 1) for _ in range(2)]
+        dis[0][K] = 0
+        dis[0][0] = 0
+        dis[1][0] = 0
+        for i in range(N):
+            for u, v, w in times:
+                dv = dis[1 - 1&i][v]
+                du = dis[1&i][u]
+                if du + w < dv:
+                    dis[1 - 1&i][v] = du + w
+        return max(dis[1 - 1&i]) if max(dis[1 - 1&i]) < float("inf") else -1
